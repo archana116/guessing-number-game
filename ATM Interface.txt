@@ -1,0 +1,129 @@
+
+
+import java.util.*;
+public class Main
+{
+    private double balance;
+    private List<String> transactionHistory;
+    private String userId;
+    private int userPin;
+    public Main(String userId,int userPin)
+    {
+        this.balance=1000;      //Minimum balance
+        this.transactionHistory=new ArrayList<>();
+        this.userId=userId;
+        this.userPin=userPin;
+    }
+    public void Menu()
+    {
+        System.out.println("ATM Interface Menu:");
+        System.out.println("1. Check Balance");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Transfer");
+        System.out.println("5. Transaction History");
+        System.out.println("6. Quit");
+    }
+    public void checkBalance()
+    {
+        System.out.println("Your current balance is :$"+balance);
+        transactionHistory.add("checked Balance :$"+balance);
+    }
+    public void deposit(int amount)
+    {
+        if(amount>0)
+        {
+            balance=balance+amount;
+            System.out.println("$"+amount+"has been deposited");
+            transactionHistory.add("Deposited :$"+amount);
+        }
+        else
+        {
+            System.out.println("Invalid deposit amount");
+        }
+    }
+    public void withDraw(int amount)
+    {
+        if(amount>0 && amount<=balance)
+        {
+            balance=balance-amount;
+            System.out.println("$"+amount+"has been withdrawn");
+            transactionHistory.add("withdrawn :$"+amount);
+        }
+        else
+        {
+            System.out.println("Insufficient balance");
+        }
+    }
+    public void transfer(int amount)
+    {
+        if(amount>0 && amount<=balance)
+        {
+            balance=balance-amount;
+            System.out.println("$"+amount+" has been transferred");
+            transactionHistory.add("Transferred: $"+amount);
+        }
+        else
+        {
+            System.out.println("Insufficient balance");
+        }
+    }
+    public void TransactionHistory()
+    {
+        System.out.println("Transaction History:");
+        for(String s:transactionHistory)
+        {
+            System.out.println(s);
+        }
+    }
+	public static void main(String[] args) 
+	{
+	    Scanner sc=new Scanner(System.in);
+	    String validUserId="123456";
+	    int validPin=4726;
+	    System.out.print("Enter your user ID:");
+	    String enteredUserID=sc.next();
+	    System.out.print("Enter your PIN:");
+	    int enteredPIN=sc.nextInt();
+	    
+	    if(enteredUserID.equals(validUserId) && enteredPIN==validPin)
+	    {
+	    
+	    Main obj=new Main(enteredUserID,enteredPIN);
+	    int ch;
+	    do
+	    {
+	        obj.Menu();
+	        System.out.print("Enter your choice(1-6): ");
+	        ch=sc.nextInt();
+	        switch(ch)
+	        {
+	            case 1: obj.checkBalance();
+	                    break;
+	            case 2: System.out.print("Enter the deposit amount :$");
+	                    int depositAmount=sc.nextInt();
+	                    obj.deposit(depositAmount);
+	                    break;
+	            case 3: System.out.print("Enter the withdrawal amount: $");
+	                    int withdrawalAmount=sc.nextInt();
+	                    obj.withDraw(withdrawalAmount);
+	                    break;
+	            case 4: System.out.print("Enter the transfer amount: $");
+	                    int transferAmount=sc.nextInt();
+	                    obj.transfer(transferAmount);
+	                    break;
+	            case 5: obj.TransactionHistory();
+	                    break;
+	            case 6: System.out.println("Thank You!");
+	                    break;
+	            default :System.out.println("Invalid Choice. Please try again.");
+	         }
+	    
+	       }while(ch!=6);
+	    }
+	   else
+	   {
+	    System.out.println("Invalid user credentials. Access denied.");
+	   }
+	}
+}
